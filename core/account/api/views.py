@@ -1,6 +1,37 @@
 from .serializers import Staff_Serializer, Student_Serializer, Author_Serializer
 from account.models import Staff,Student,Author
 from rest_framework import generics
+from .serializers import Registration_Serializer
+from rest_framework.response import Response
+from rest_framework import status
+
+# modify class names
+# --- registration ---
+class Registration_APIView(generics.GenericAPIView):
+    serializer_class = Registration_Serializer
+
+    # make obj
+    def post(self, request, *args, **kwargs):
+        # serializer = self.serializer_class
+        serializer = Registration_Serializer(data= request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            data = { 'email': serializer.validated_data['email']}
+
+            return Response(data, status= status.HTTP_201_CREATED)  
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+ 
+
+
+
+
+
+
+
+
+
 
 # -------------- Staff -------------------------------------
 # ------------- Create ------------------------
