@@ -2,16 +2,15 @@ from rest_framework import serializers
 from account.models import Staff,Student,Author,CustomUser
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
-
-
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 # ---------------------------------------------
 # ---------------------------------------------
 
-# -- login serializer
+# -- registration serializer
 class Registration_Serializer(serializers.ModelSerializer):
     password_confrimation = serializers.CharField(max_length=300,write_only=True)
 
-    
     class Meta:
         model = CustomUser
         fields = ['email' , 'password','password_confrimation']
@@ -23,25 +22,19 @@ class Registration_Serializer(serializers.ModelSerializer):
         try:
             validate_password(attrs.get('password'))
         except exceptions.ValidationError as e:
-            raise serializers.ValidationError({'password': list(e.massages)})
+            raise serializers.ValidationError({'password': list(e.messages)})
         return super().validate(attrs)
 
     def create(self,validated_data):
-        validated_data.pop('password1',None)
+        validated_data.pop('password_confrimation',None)
 
         return CustomUser.objects.create_user(**validated_data)
 
-        # check the user model of course
+# check the user model of 
 
 
  
-# --login
-from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
-
-from rest_framework import serializers
-
-
+# -- login serializer
 class CustomAuthTokenSerializer(serializers.Serializer):
     email = serializers.CharField(
         label=_("email"),
@@ -78,12 +71,6 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
-
-
-
-
-
-
 
 
 # FIELDS = ()
