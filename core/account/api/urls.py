@@ -1,19 +1,13 @@
 from django.urls import path
 # orgnize here!
-from .views import Staff_Create_APIView,Staff_List_APIView,Staff_Update_Delete_APIView,Student_Create_APIView,Student_List_APIView,Student_Update_Delete_APIView,Author_Create_APIView,Author_List_APIView,Author_Update_Delete_APIView
+from .views import Staff_Create_APIView,Staff_List_APIView,Staff_Update_Delete_APIView,Student_Create_APIView,Student_List_APIView,Student_Update_Delete_APIView,Author_Create_APIView,Author_List_APIView,Author_Update_Delete_APIView,CustomAuthToken,Registration_APIView
 
 app_name = 'api'
 
 urlpatterns = [
 
-    path('registration/', .as_view(), name='registration'),
-
-
-
-
-
-
-
+    path('registration/', Registration_APIView.as_view(), name='registration'),
+    path('login/', CustomAuthToken.as_view(), name='login'),
 
 # modify names
 

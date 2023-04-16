@@ -1,5 +1,6 @@
 from django.db import models
 # login ba token anjam bedim
+from .custom_manager import CustomUserManager
 
 from django.contrib.auth.models import AbstractUser,AbstractBaseUser
 # from library.models import Book,Borrower
@@ -25,10 +26,12 @@ class CustomUser(AbstractBaseUser):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated')
 
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
 
     REQUIRED_FIELDS = []
+
 
     backend = 'account.custom_backend.ModelBackend'
 

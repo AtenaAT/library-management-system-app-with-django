@@ -1,11 +1,13 @@
-from .serializers import Staff_Serializer, Student_Serializer, Author_Serializer
+from .serializers import Staff_Serializer, Student_Serializer, Author_Serializer,CustomAuthTokenSerializer,Registration_Serializer
 from account.models import Staff,Student,Author
 from rest_framework import generics
-from .serializers import Registration_Serializer,CustomAuthTokenSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
-# modify class names
+# modify class names.
+
 # --- registration ---
 class Registration_APIView(generics.GenericAPIView):
     serializer_class = Registration_Serializer
@@ -24,11 +26,7 @@ class Registration_APIView(generics.GenericAPIView):
 
  
 
-# -- login
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-
+# -- login ---
 class CustomAuthToken(ObtainAuthToken):
     serializer_class = CustomAuthTokenSerializer
 
@@ -43,11 +41,6 @@ class CustomAuthToken(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })
-
-
-
-
-
 
 
 
